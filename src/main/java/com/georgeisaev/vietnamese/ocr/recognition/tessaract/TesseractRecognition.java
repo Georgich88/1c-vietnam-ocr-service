@@ -13,9 +13,8 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-import java.util.logging.Level;
 
-import static net.sourceforge.tess4j.ITessAPI.TessOcrEngineMode.OEM_LSTM_ONLY;
+import static java.util.logging.Level.SEVERE;
 
 @Log
 @Component
@@ -28,15 +27,15 @@ public class TesseractRecognition implements Recognition {
 	}
 
 	@Override
-	public RecognitionResult recognize(File file, Map<String, String> settings) throws IOException {
+	public RecognitionResult recognize(File file, Map<String, String> settings) {
 		RecognitionParams<Tesseract> params = new TesseractParams(settings);
 		Tesseract tesseract = params.toRecognitionProvider();
-		tesseract.setDatapath(models.getFile().getPath());
 		try {
+			tesseract.setDatapath(models.getFile().getPath());
 			String text = tesseract.doOCR(file);
 			return new TesseractResult(text, file.getName(), "");
-		} catch (TesseractException e) {
-			log.log(Level.SEVERE, e, e::getMessage);
+		} catch (TesseractException | IOException e) {
+			log.log(SEVERE, e, e::getMessage);
 			return new TesseractResult("", file.getName(), e.getMessage());
 		}
 	}

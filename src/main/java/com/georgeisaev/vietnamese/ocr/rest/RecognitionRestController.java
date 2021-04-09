@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static java.util.logging.Level.SEVERE;
 import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE;
 
 @Log
@@ -50,7 +51,7 @@ public class RecognitionRestController {
 			RecognitionResult result = recognitionService.recognise(imageFileTempPath, params);
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		} catch (Exception e) {
-			log.severe("Cannot recognize document");
+			log.log(SEVERE, e, e::getMessage);
 			return new ResponseEntity<>(NOT_ACCEPTABLE);
 		}
 
