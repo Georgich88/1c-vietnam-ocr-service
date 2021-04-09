@@ -1,1 +1,3 @@
-# 1c-vietnam-ocr-service
+# Free OCR service in the subtropics
+
+
