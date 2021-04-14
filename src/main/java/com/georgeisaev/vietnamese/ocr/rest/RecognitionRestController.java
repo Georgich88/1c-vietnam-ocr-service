@@ -25,6 +25,11 @@ import java.util.stream.Collectors;
 import static java.util.logging.Level.SEVERE;
 import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE;
 
+/**
+ * Handles http request for document recognition.
+ *
+ * @author Georgy Isaev
+ */
 @Log
 @RestController
 @RequestMapping("/documents")
@@ -40,7 +45,7 @@ public class RecognitionRestController {
 	}
 
 	/**
-	 * Handle a POST-request with a file and json parameters and returns recognition result.
+	 * Handles a POST-request with a file and json parameters and returns recognition result.
 	 *
 	 * @param document a document to be recognized
 	 * @param settings additional settings for recognition
