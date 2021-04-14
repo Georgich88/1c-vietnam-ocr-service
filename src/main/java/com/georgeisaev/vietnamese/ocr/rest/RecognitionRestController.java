@@ -39,6 +39,13 @@ public class RecognitionRestController {
 		this.recognitionService = recognitionService;
 	}
 
+	/**
+	 * Handle a POST-request with a file and json parameters and returns recognition result.
+	 *
+	 * @param document a document to be recognized
+	 * @param settings additional settings for recognition
+	 * @return response containing the result of recognition
+	 */
 	@PostMapping(consumes = "multipart/form-data", produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<RecognitionResult> recognize(@RequestParam MultipartFile document,
@@ -57,11 +64,23 @@ public class RecognitionRestController {
 
 	}
 
+	/**
+	 * Returns a temp unique file name.
+	 *
+	 * @param document document to be processed
+	 * @return a temp file name
+	 */
 	@NotNull
 	private String generateFilename(MultipartFile document) {
-		return UUID.randomUUID().toString() + document.getOriginalFilename();
+		return UUID.randomUUID() + document.getOriginalFilename();
 	}
 
+	/**
+	 * Parses a Json string into parameters.
+	 *
+	 * @param settings Json object in {@code String} representation
+	 * @return recognition parameters
+	 */
 	@NotNull
 	private Map<String, String> retrieveRecognitionParams(String settings) {
 		return settings == null ? Collections.emptyMap() :
