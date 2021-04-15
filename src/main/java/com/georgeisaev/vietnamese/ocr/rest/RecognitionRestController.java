@@ -2,12 +2,12 @@ package com.georgeisaev.vietnamese.ocr.rest;
 
 import com.georgeisaev.vietnamese.ocr.recognition.api.RecognitionResult;
 import com.georgeisaev.vietnamese.ocr.services.RecognitionService;
-import lombok.extern.java.Log;
-import org.jetbrains.annotations.NotNull;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static java.util.logging.Level.SEVERE;
 import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE;
 
 /**
@@ -30,7 +29,7 @@ import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE;
  *
  * @author Georgy Isaev
  */
-@Log
+@Slf4j
 @RestController
 @RequestMapping("/documents")
 public class RecognitionRestController {
@@ -63,7 +62,7 @@ public class RecognitionRestController {
 			RecognitionResult result = recognitionService.recognise(imageFileTempPath, params);
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		} catch (Exception e) {
-			log.log(SEVERE, e, e::getMessage);
+			log.error("Cannot return recognition result", e);
 			return new ResponseEntity<>(NOT_ACCEPTABLE);
 		}
 
@@ -75,7 +74,7 @@ public class RecognitionRestController {
 	 * @param document document to be processed
 	 * @return a temp file name
 	 */
-	@NotNull
+	@NonNull
 	private String generateFilename(MultipartFile document) {
 		return UUID.randomUUID() + document.getOriginalFilename();
 	}
@@ -86,7 +85,7 @@ public class RecognitionRestController {
 	 * @param settings Json object in {@code String} representation
 	 * @return recognition parameters
 	 */
-	@NotNull
+	@NonNull
 	private Map<String, String> retrieveRecognitionParams(String settings) {
 		return settings == null ? Collections.emptyMap() :
 				new JSONObject(settings).toMap()
