@@ -2,6 +2,7 @@ package com.georgeisaev.vietnamese.ocr.recognition.tessaract;
 
 import com.georgeisaev.vietnamese.ocr.recognition.api.RecognitionParams;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import net.sourceforge.tess4j.Tesseract;
 import org.springframework.lang.NonNull;
 
@@ -9,8 +10,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static java.lang.Integer.parseInt;
 import static net.sourceforge.tess4j.ITessAPI.TessOcrEngineMode.OEM_LSTM_ONLY;
 
+@Slf4j
 @Data
 public class TesseractParams implements RecognitionParams<Tesseract> {
 
@@ -53,11 +56,20 @@ public class TesseractParams implements RecognitionParams<Tesseract> {
 
 	// endregion
 
-	private int retrieveIntValue(@NonNull Map<String, String> settings, @NonNull final String key, final int defaultValue) {
-		final String mode = settings.getOrDefault(key, String.valueOf(defaultValue));
+	/**
+	 * Retrieves integer value from the settings.
+	 *
+	 * @param settings     recognition settings
+	 * @param key          key with int value
+	 * @param defaultValue returns if settings does not contain a {@code key}
+	 * @return parsed int value from the {@code settings}
+	 */
+	private int retrieveIntValue(@NonNull Map<String, String> settings, @NonNull String key, int defaultValue) {
+		String stringValue = settings.getOrDefault(key, String.valueOf(defaultValue));
 		try {
-			return Integer.parseInt(mode);
+			return parseInt(stringValue);
 		} catch (NumberFormatException e) {
+			log.error("Cannot parse int value from {}", stringValue, e);
 			return defaultValue;
 		}
 	}

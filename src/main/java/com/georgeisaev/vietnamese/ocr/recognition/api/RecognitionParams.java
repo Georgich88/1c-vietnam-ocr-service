@@ -8,6 +8,11 @@ package com.georgeisaev.vietnamese.ocr.recognition.api;
  */
 public interface RecognitionParams<T> {
 
+	/**
+	 * Produces recognition object from this params.
+	 *
+	 * @return object that is used for recognition
+	 */
 	T toRecognitionProvider();
 
 }

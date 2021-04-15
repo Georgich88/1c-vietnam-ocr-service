@@ -3,7 +3,7 @@ package com.georgeisaev.vietnamese.ocr.recognition.tessaract;
 import com.georgeisaev.vietnamese.ocr.recognition.api.Recognition;
 import com.georgeisaev.vietnamese.ocr.recognition.api.RecognitionParams;
 import com.georgeisaev.vietnamese.ocr.recognition.api.RecognitionResult;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 import org.springframework.core.io.ClassPathResource;
@@ -14,9 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-import static java.util.logging.Level.SEVERE;
-
-@Log
+@Slf4j
 @Component
 public class TesseractRecognition implements Recognition {
 
@@ -35,7 +33,7 @@ public class TesseractRecognition implements Recognition {
 			String text = tesseract.doOCR(file);
 			return new TesseractResult(text, file.getName(), "");
 		} catch (TesseractException | IOException e) {
-			log.log(SEVERE, e, e::getMessage);
+			log.error("Cannot proceed recognition", e);
 			return new TesseractResult("", file.getName(), e.getMessage());
 		}
 	}

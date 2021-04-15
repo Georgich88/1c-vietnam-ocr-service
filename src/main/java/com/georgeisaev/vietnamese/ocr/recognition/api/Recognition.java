@@ -13,6 +13,15 @@ import java.util.Map;
  */
 public interface Recognition {
 
+	/**
+	 * Recognize text from a given file and returns the result of recognition.
+	 *
+	 * @param imageFile file contains images
+	 * @param params    additional provider specific recognition parameters
+	 * @return recognition result
+	 * @throws RecognitionException when recognition processor cannot digest a file content
+	 * @throws IOException          when an error occurs during file operation with {@code imageFile}
+	 */
 	RecognitionResult recognize(File imageFile, Map<String, String> params) throws RecognitionException, IOException;
 
 }
