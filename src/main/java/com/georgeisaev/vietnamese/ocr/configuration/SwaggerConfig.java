@@ -44,7 +44,7 @@ public class SwaggerConfig {
                 .build()
                 .apiInfo(apiInfo())
                 .useDefaultResponseMessages(false);
-        docket.pathMapping("/" + APP_PATH);
+        docket.pathMapping("/");
         return docket;
     }
 
