@@ -1,4 +1,4 @@
-package com.georgeisaev.vietnamese.ocr.rest;
+package com.georgeisaev.vietnamese.ocr.controller.v1;
 
 import com.georgeisaev.vietnamese.ocr.recognition.api.RecognitionResult;
 import com.georgeisaev.vietnamese.ocr.services.RecognitionService;
