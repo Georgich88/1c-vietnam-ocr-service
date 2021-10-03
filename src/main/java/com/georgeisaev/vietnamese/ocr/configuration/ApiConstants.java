@@ -11,7 +11,7 @@ public final class ApiConstants {
     // region Endpoints
 
     public static final String BASE_ENDPOINT = "/" + API + "/" + VERSION + "/";
-    public static final String RECOGNITION_ENDPOINT = "payment-invoices";
+    public static final String RECOGNITION_DOCUMENTS_ENDPOINT = "documents";
 
     // endregion
 

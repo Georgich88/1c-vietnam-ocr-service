@@ -1,14 +1,17 @@
 FROM openjdk:17-alpine
 ARG version=0.1.0-1
-COPY ./vietnamese-ocr-$version.jar /usr/app/vietnamese-ocr.jar
-COPY ./Starter.sh /usr/app/Starter.sh
+COPY ./target/vietnamese-ocr-0.1.0-1.jar /usr/app/vietnamese-ocr.jar
+COPY Starter.sh /usr/app/Starter.sh
+COPY ./target/classes/application.properties /deployments/config/application.properties
+COPY ./target/classes/tesseract /usr/app/tesseract
 
 WORKDIR /usr/app
 USER root
 
 RUN apk update && apk add \
     tesseract-ocr \
-    ghostscript
+    ghostscript \
+    tree
 
 RUN chgrp -R 0 /usr/app/ && chmod -R g=u /usr/app/; \
     chmod +x /usr/app/Starter.sh; \
@@ -19,4 +22,4 @@ EXPOSE 8000
 
 ONBUILD ADD ./ext /usr/app/ext
 CMD sleep 10; \
-./Starter.sh
+. Starter.sh

@@ -1,9 +1,13 @@
 package com.georgeisaev.vietnamese.ocr.configuration;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.oas.annotations.EnableOpenApi;
 import springfox.documentation.service.ApiInfo;
@@ -17,9 +21,10 @@ import springfox.documentation.swagger.web.TagsSorter;
 import springfox.documentation.swagger.web.UiConfiguration;
 import springfox.documentation.swagger.web.UiConfigurationBuilder;
 
+import java.io.IOException;
 import java.security.Principal;
+import java.util.Map;
 
-import static com.georgeisaev.vietnamese.ocr.configuration.ApiConstants.APP_PATH;
 import static java.util.Collections.emptyList;
 
 @AllArgsConstructor
@@ -81,6 +86,21 @@ public class SwaggerConfig {
                 .supportedSubmitMethods(UiConfiguration.Constants.DEFAULT_SUBMIT_METHODS)
                 .validatorUrl(null)
                 .build();
+    }
+
+    @Component
+    public class StringToMapConverter implements Converter<String, Map<String, String>> {
+
+        @Override
+        public Map<String, String> convert(String source) {
+            try {
+                return new ObjectMapper().readValue(source, new TypeReference<Map<String, String>>() {
+                });
+            } catch (IOException e) {
+                throw new RuntimeException(e.getMessage());
+            }
+        }
+
     }
 
 }

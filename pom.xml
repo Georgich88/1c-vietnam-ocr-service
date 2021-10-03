@@ -11,7 +11,7 @@
 
     <groupId>com.georgeisaev</groupId>
     <artifactId>vietnamese-ocr</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1.0-1</version>
     <name>vietnamese-ocr</name>
     <description>Free Vietnamese OCR</description>
 

@@ -33,7 +33,7 @@ class TesseractRecognitionTest {
 	void shouldRecognize() {
 		RecognitionResult result =
 				assertDoesNotThrow(() -> tessaractRecognition.recognize(testData.getFile(), emptyMap()));
-		assertEquals(EXPECTED_RESULT, result.getText());
+		assertEquals(EXPECTED_RESULT, result.text());
 	}
 
 }

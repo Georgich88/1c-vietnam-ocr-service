@@ -19,7 +19,7 @@ import static net.sourceforge.tess4j.ITessAPI.TessOcrEngineMode.OEM_LSTM_ONLY;
 @Slf4j
 @Data
 @RequiredArgsConstructor
-@FieldDefaults(makeFinal = false, level = AccessLevel.PRIVATE)
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class TesseractParams implements RecognitionParams<Tesseract> {
 
     // region Recognition options
