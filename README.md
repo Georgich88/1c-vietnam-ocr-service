@@ -1,12 +1,10 @@
-# Example of free OCR service
+# Rest for OCR service with Vietnamese and Russian language support
 
-## 1. Introduction
+[Latest docker image](https://hub.docker.com/layers/170166608/one1gog/1c-vietnam-ocr/latest/images/sha256-8f482f35f79c04e57371dd7039b4391a2836aaa5742de62bad275241e15b4161?context=repo)
 
-**1C:Document Management** solution supports only Russian and English language recognition, which is quite enough for
-most cases in Russia. However, when support for "exotic" languages is in demand then CuneiForm becomes insufficient,
-whereas third-party solutions are either paid or proprietary, or depend on an external connection. In this repository, I
-am showing how to build a completely free OCR server that supports high-quality document recognition  
-in Vietnamese.
+## 1. About
+Version: 0.1.0-1   
+Service provides REST API to recognize documents using OCR library Tessaract
 
 ## 2. Tessaract
 
@@ -21,23 +19,24 @@ works by recognizing character patterns.
 We take an opinionated view of the Spring platform and third-party libraries, so you can get started with minimum fuss.
 Most Spring Boot applications need minimal Spring configuration.
 
-## 4. Setting up
+## 4. Build
+Build a docker image:
+```shell
+docker build -t one1gog/1c-vietnam-ocr .
+```
 
-Going to spring.io and create an initial image of the application. You can achieve the same result with a paid IntelliJ
-IDEA and free STS based on Eclipse.
+## 5. Running
+1. Download docker image `docker pull one1gog/1c-vietnam-ocr:latest`
+2. Run docker with 8080 port binding: `docker run -p 8080:8080/tcp one1gog/1c-vietnam-ocr:latest`
+3. Swagger will be available on a bound port: http://localhost:8080/swagger-ui/index.html
+4. Try to recognize document
+```shell
+curl -X POST "http://localhost:8080/api/v1/documents" -H "accept: application/json" \ 
+-H "Content-Type: multipart/form-data" -F "recognitionParams={ "language": "vie" }" \ 
+-F "file=@example.jpg;type=image/jpeg" 
+```
+5. To pass specific Tessaract parameters try `recognitionParams` header param
 
-## 5. Project structure
 
-Opening the downloaded project, for example, in IDEA.
 
-We will create the following layers:
 
-1. **The Controllers layer** to process REST requests; put it in the rest package
-1. **The Service layer**, which will be responsible for preparing the data for recognition, and the generation of
-   recognition results; place it in the services layer
-1. **The Recognition Domain Layer**. For this, we will add the following interfaces `RecognitionParams` - for generating
-   recognition parameters, `Recognition` - Recognition processor, `RecognitionResult` - for working with the results of
-   recognition. For each interface, we will add an implementation for working with the Tess4J library.
-
-Additionally, we will add to the project ready trained models for the Vietnamese and Russian languages, hence the native
-**Tesseract** libraries.
